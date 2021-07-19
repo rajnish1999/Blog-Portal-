@@ -1,0 +1,66 @@
+const gql = require('graphql-tag');
+const typeDefs = gql`
+    type Query {
+        users(inputQuery: String): [User!]!
+        posts(inputQuery: String): [Post!]!
+        comments: [Comment!]!
+        me: User!
+        post: Post!      
+    }
+
+    type Mutation {
+        createUser(name: String!, email: String!, age: Int): User!
+        deleteUser(id: ID!): User!
+        updateUser(id: ID!, data: updateUserInput!): User!
+        createPost(title: String!, body: String!, published: Boolean!, author: String!): Post!
+        deletePost(id: ID!): Post!
+        updatePost(id: ID!, data: updatePostInput): Post!
+        createComment(text: String!, author: String!, post: String!): Comment!
+        deleteComment(id: ID!): Comment!
+        updateComment(id: ID!, data: updateCommentInput!): Comment!
+    }
+
+    input updateUserInput {
+        name: String
+        email: String
+        age: Int
+    }
+
+    input updatePostInput {
+        title: String
+        body: String
+        published: Boolean
+    }
+
+    input updateCommentInput {
+        text: String
+    }
+
+    type User {
+        id: ID!
+        name: String!
+        email: String!
+        age: Int
+        posts: [Post!]!
+        comments: [Comment!]!
+    }
+
+    type Post {
+        id: ID!
+        title:String!
+        body: String!
+        published: Boolean!
+        author: User!
+        comments: [Comment!]!
+    }
+
+    type Comment {
+        id: ID!
+        text: String!
+        author: User!
+        post: Post!
+    }
+`
+module.exports = typeDefs
+
+
